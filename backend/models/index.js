@@ -1,4 +1,3 @@
-// backend/models/index.js
 const { Sequelize } = require('sequelize');
 const config = require('../config/database');
 
@@ -14,16 +13,48 @@ const sequelize = new Sequelize(
     port: dbConfig.port,
     dialect: dbConfig.dialect,
     logging: dbConfig.logging,
-    pool: dbConfig.pool,
-    dialectOptions: dbConfig.dialectOptions
   }
 );
 
+// IMPORTAR MODELOS
 const UserModel = require('./User');
-const User = UserModel(sequelize);
+const LibroModel = require('./Libro');
+const GeneroModel = require('./Genero');
+const LibroUsuarioModel = require('./LibroUsuario');
 
-module.exports = {
-  sequelize,
-  Sequelize,
-  User
-};
+// INICIALIZAR MODELOS
+const User = UserModel(sequelize);
+const Libro = LibroModel(sequelize);
+const Genero = GeneroModel(sequelize);
+const LibroUsuario = LibroUsuarioModel(sequelize);
+
+// GUARDAR EN DB
+const db = {};
+db.Sequelize = Sequelize;
+db.sequelize = sequelize;
+
+db.User = User;
+db.Libro = Libro;
+db.Genero = Genero;
+db.LibroUsuario = LibroUsuario;|
+// Muchos a muchos
+db.User.belongsToMany(db.Libro, {
+  through: db.LibroUsuario,
+  foreignKey: 'usuarioId'
+});
+
+db.Libro.belongsToMany(db.User, {
+  through: db.LibroUsuario,
+  foreignKey: 'libroId'
+});
+
+// Uno a muchos
+db.Genero.hasMany(db.Libro, {
+  foreignKey: 'generoId'
+});
+
+db.Libro.belongsTo(db.Genero, {
+  foreignKey: 'generoId'
+});
+
+module.exports = db;
