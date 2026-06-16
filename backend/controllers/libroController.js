@@ -2,7 +2,11 @@ const { Libro } = require('../models');
 
 const getLibros = async (req, res) => {
   try {
-    const libros = await Libro.findAll();
+    const libros = await Libro.findAll({
+      where: {
+        userId: req.user.id
+      }
+    });
 
     res.status(200).json(libros);
   } catch (error) {
@@ -17,7 +21,12 @@ const getLibroById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const libro = await Libro.findByPk(id);
+    const libro = await Libro.findOne({
+      where: {
+        id,
+        userId: req.user.id
+      }
+    });
 
     if (!libro) {
       return res.status(404).json({
@@ -36,7 +45,10 @@ const getLibroById = async (req, res) => {
 
 const createLibro = async (req, res) => {
   try {
-    const libro = await Libro.create(req.body);
+    const libro = await Libro.create({
+      ...req.body,
+      userId: req.user.id
+    });
 
     res.status(201).json({
       message: 'Libro creado exitosamente',
@@ -54,7 +66,12 @@ const updateLibro = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const libro = await Libro.findByPk(id);
+    const libro = await Libro.findOne({
+      where: {
+        id,
+        userId: req.user.id
+      }
+    });
 
     if (!libro) {
       return res.status(404).json({
@@ -80,7 +97,12 @@ const deleteLibro = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const libro = await Libro.findByPk(id);
+    const libro = await Libro.findOne({
+      where: {
+        id,
+        userId: req.user.id
+      }
+    });
 
     if (!libro) {
       return res.status(404).json({
