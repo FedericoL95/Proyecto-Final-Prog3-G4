@@ -36,7 +36,7 @@ db.sequelize = sequelize;
 db.User = User;
 db.Libro = Libro;
 db.Genero = Genero;
-db.LibroUsuario = LibroUsuario;|
+db.LibroUsuario = LibroUsuario;
 // Muchos a muchos
 db.User.belongsToMany(db.Libro, {
   through: db.LibroUsuario,

@@ -1,19 +1,27 @@
 'use strict';
-/** @type {import('sequelize-cli').Migration} */
+
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('LibroUsuarios', {
-      id: {
+    await queryInterface.createTable('libros_usuarios', {
+      idUsuario: {
+        type: Sequelize.INTEGER,
         allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
+        references: {
+          model: 'usuario',
+          key: 'idUsuario'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
-      usuarioId: {
-        type: Sequelize.INTEGER
-      },
-      libroId: {
-        type: Sequelize.INTEGER
+      idLibro: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'libros',
+          key: 'idLibro'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
       createdAt: {
         allowNull: false,
@@ -25,7 +33,8 @@ module.exports = {
       }
     });
   },
+
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('LibroUsuarios');
+    await queryInterface.dropTable('libros_usuarios');
   }
 };
