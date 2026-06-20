@@ -18,10 +18,9 @@ module.exports = (sequelize) => {
     autor: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
     },
     estado: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM(['por leer','leyendo','leído']),
       allowNull: false,
       },
     puntuacion: {
