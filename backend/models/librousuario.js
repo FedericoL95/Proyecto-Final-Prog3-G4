@@ -1,27 +1,26 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  const LibrosUsuario = sequelize.define('LibrosUsuario', {
+  const Libro = sequelize.define('LibrosUsuario', {
     idUsuario: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'usuario',
+        model: 'User',
         key: 'idUsuario'
       }
     },
-    idLibro: {
+    IdLibro: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'libros',
+        model: 'Libro',
         key: 'idLibro'
       }
     }
   }, {
-    tableName: 'libros_usuarios',
+    tableName: 'libros',
     timestamps: true
-  });
-
-  return LibrosUsuario;
+   });
+  return Libro;
 };
