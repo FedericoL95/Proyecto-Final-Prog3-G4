@@ -5,8 +5,9 @@ const register = async (req, res) => {
   try {
     const { nombre, email, password } = req.body;
 
-    // Verificar que no exista un usuario con ese email
-    const existente = await User.findOne({ where: { email } });
+    const existente = await User.findOne({
+      where: { email }
+    });
 
     if (existente) {
       return res.status(400).json({
@@ -14,14 +15,12 @@ const register = async (req, res) => {
       });
     }
 
-    // Crear el usuario en la base de datos
     const user = await User.create({
       nombre,
       email,
       password
     });
 
-    // Generar un token para el usuario recién creado
     const token = generarToken(user);
 
     res.status(201).json({
@@ -41,7 +40,6 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Buscar el usuario por email
     const user = await User.findOne({
       where: { email }
     });
@@ -52,7 +50,6 @@ const login = async (req, res) => {
       });
     }
 
-    // Validar la contraseña
     const passwordValida = await user.validarPassword(password);
 
     if (!passwordValida) {
@@ -78,8 +75,7 @@ const login = async (req, res) => {
 
 const perfil = async (req, res) => {
   try {
-    // Obtener el usuario usando el id del token
-    const user = await User.findByPk(req.user.id);
+    const user = await User.findByPk(req.user.idusuario);
 
     if (!user) {
       return res.status(404).json({
