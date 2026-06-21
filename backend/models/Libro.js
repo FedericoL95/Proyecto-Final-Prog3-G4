@@ -20,7 +20,7 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     estado: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM(['por leer','leyendo','leído']),
       allowNull: false,
       },
     puntuacion: {
@@ -42,7 +42,7 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'generos',
+        model: 'Genero',
         key: 'idGenero'
       }
     }

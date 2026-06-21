@@ -7,7 +7,9 @@ const register = async (req, res) => {
 
     const existente = await User.findOne({ where: { email } });
     if (existente) {
-      return res.status(400).json({ error: 'El email ya está registrado' });
+      return res.status(400).json({
+        error: 'El email ya está registrado'
+      });
     }
 
     const user = await User.create({ nombre, email, password });
@@ -20,7 +22,9 @@ const register = async (req, res) => {
     });
   } catch (error) {
     console.error('Error en register:', error);
-    res.status(500).json({ error: 'Error al registrar usuario' });
+    res.status(500).json({
+      error: 'Error al registrar usuario'
+    });
   }
 };
 
@@ -30,12 +34,16 @@ const login = async (req, res) => {
 
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      return res.status(401).json({ error: 'Credenciales inválidas' });
+      return res.status(401).json({
+        error: 'Credenciales inválidas'
+      });
     }
 
     const passwordValida = await user.validarPassword(password);
     if (!passwordValida) {
-      return res.status(401).json({ error: 'Credenciales inválidas' });
+      return res.status(401).json({
+        error: 'Credenciales inválidas'
+      });
     }
 
     const token = generarToken(user);
@@ -43,7 +51,9 @@ const login = async (req, res) => {
     res.json({ message: 'Login exitoso', user, token });
   } catch (error) {
     console.error('Error en login:', error);
-    res.status(500).json({ error: 'Error al iniciar sesión' });
+    res.status(500).json({
+      error: 'Error al iniciar sesión'
+    });
   }
 };
 
@@ -51,13 +61,21 @@ const perfil = async (req, res) => {
   try {
     const user = await User.findByPk(req.user.id);
     if (!user) {
-      return res.status(404).json({ error: 'Usuario no encontrado' });
+      return res.status(404).json({
+        error: 'Usuario no encontrado'
+      });
     }
     res.json({ user });
   } catch (error) {
     console.error('Error en perfil:', error);
-    res.status(500).json({ error: 'Error al obtener perfil' });
+    res.status(500).json({
+      error: 'Error al obtener perfil'
+    });
   }
 };
 
-module.exports = { register, login, perfil };
+module.exports = {
+  register,
+  login,
+  perfil
+};

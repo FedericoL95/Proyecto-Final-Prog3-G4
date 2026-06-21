@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  const LibrosUsuario = sequelize.define('LibrosUsuario', {
+  const Libro = sequelize.define('LibrosUsuario', {
     idUsuario: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -19,9 +19,8 @@ module.exports = (sequelize) => {
       }
     }
   }, {
-    tableName: 'libros_usuarios',
+    tableName: 'libro_usuario',
     timestamps: true
-  });
-
-  return LibrosUsuario;
+   });
+  return Libro;
 };
