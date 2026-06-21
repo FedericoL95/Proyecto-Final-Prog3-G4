@@ -39,24 +39,16 @@ module.exports = (sequelize) => {
         const saltRounds = 10;
         const hashedPass = await bcrypt.hash(user.password, saltRounds);
         user.password = hashedPass;
-        // TODO: Hashear la contraseña antes de guardar el usuario.
-        // Pista: usar bcrypt.hash() con 10 rondas de salt.
       }
     }
   });
 
   User.prototype.validarPassword = async function (password) {
     try {
-      const isValid = await bcrypt.compare(password, this.password);
-      if (isValid) {
-        return true;
-      }
-      return false;
+      return await bcrypt.compare(password, this.password);
     } catch (error) {
       throw new Error('Error al validar la contraseña');
     }
-    // TODO: Comparar la contraseña recibida con el hash almacenado.
-    // Pista: usar bcrypt.compare()
   };
 
   User.prototype.toJSON = function () {

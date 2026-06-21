@@ -1,11 +1,11 @@
 const { Router } = require('express');
-const router = express.Router();
+const router = Router();
 const { getGeneros, getGeneroById, createGenero, updateGenero, deleteGenero } = require('../controllers/generosController')
 
-rutas.get('/', getGeneros )
-rutas.get('/:id', getGeneroById)
-rutas.post('/', createGenero)
-rutas.put('/:id', updateGenero)
-rutas.delete('/:id', deleteGenero)
+router.get('/', getGeneros )
+router.get('/:id', getGeneroById)
+router.post('/', createGenero)
+router.put('/:id', updateGenero)
+router.delete('/:id', deleteGenero)
 
-module.exports = rutas
+module.exports = router

@@ -40,21 +40,21 @@ db.LibroUsuario = LibroUsuario;
 // Muchos a muchos
 db.User.belongsToMany(db.Libro, {
   through: db.LibroUsuario,
-  foreignKey: 'usuarioId'
+  foreignKey: 'idUsuario'
 });
 
 db.Libro.belongsToMany(db.User, {
   through: db.LibroUsuario,
-  foreignKey: 'libroId'
+  foreignKey: 'idLibro'
 });
 
 // Uno a muchos
 db.Genero.hasMany(db.Libro, {
-  foreignKey: 'generoId'
+  foreignKey: 'idGenero'
 });
 
 db.Libro.belongsTo(db.Genero, {
-  foreignKey: 'generoId'
+  foreignKey: 'idGenero'
 });
 
 module.exports = db;
