@@ -75,7 +75,7 @@ const login = async (req, res) => {
 
 const perfil = async (req, res) => {
   try {
-    const user = await User.findByPk(req.user.id);
+    const user = await User.findByPk(req.user.idusuario);
 
     if (!user) {
       return res.status(404).json({
