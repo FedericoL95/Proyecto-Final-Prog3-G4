@@ -15,9 +15,9 @@ const getGeneros = async (req, res) => {
 
 const getGeneroById = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { idgenero } = req.params;
 
-    const genero = await Genero.findByPk(id);
+    const genero = await Genero.findByPk(idgenero);
 
     if (!genero) {
       return res.status(404).json({
@@ -52,9 +52,9 @@ const createGenero = async (req, res) => {
 
 const updateGenero = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { idgenero } = req.params;
 
-    const genero = await Genero.findByPk(id);
+    const genero = await Genero.findByPk(idgenero);
 
     if (!genero) {
       return res.status(404).json({
@@ -78,9 +78,9 @@ const updateGenero = async (req, res) => {
 
 const deleteGenero = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { idgenero } = req.params;
 
-    const genero = await Genero.findByPk(id);
+    const genero = await Genero.findByPk(idgenero);
 
     if (!genero) {
       return res.status(404).json({
