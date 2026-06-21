@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 
 module.exports = (sequelize) => {
   const User = sequelize.define('User', {
-    id: {
+    idUsuario: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true
@@ -32,10 +32,13 @@ module.exports = (sequelize) => {
       }
     }
   }, {
-    tableName: 'users',
+    tableName: 'usuario',
     timestamps: true,
     hooks: {
       beforeCreate: async (user) => {
+        const saltRounds = 10;
+        const hashedPass = await bcrypt.hash(user.password, saltRounds);
+        user.password = hashedPass;
         // TODO: Hashear la contraseña antes de guardar el usuario.
         // Pista: usar bcrypt.hash() con 10 rondas de salt.
       }
@@ -43,6 +46,15 @@ module.exports = (sequelize) => {
   });
 
   User.prototype.validarPassword = async function (password) {
+    try {
+      const isValid = await bcrypt.compare(password, this.password);
+      if (isValid) {
+        return true;
+      }
+      return false;
+    } catch (error) {
+      throw new Error('Error al validar la contraseña');
+    }
     // TODO: Comparar la contraseña recibida con el hash almacenado.
     // Pista: usar bcrypt.compare()
   };
