@@ -60,6 +60,7 @@ https://github.com/FedericoL95/Proyecto-Final-Prog3-G4
  ┃ ┗ 📜 generosController.js
  ┃ ┗ 📜 libroController.js
  ┣ 📂 middleware
+ ┃ ┗ 📜 auth.js
  ┣ 📂 migrations
  ┃ ┗ 📜 .gitkeep
  ┃ ┗ 📜 genero.js
