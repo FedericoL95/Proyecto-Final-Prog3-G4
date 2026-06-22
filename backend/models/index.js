@@ -50,11 +50,13 @@ db.Libro.belongsToMany(db.User, {
 
 // Uno a muchos
 db.Genero.hasMany(db.Libro, {
-  foreignKey: 'idGenero'
+  foreignKey: 'idGenero',
+  as: 'libros'
 });
 
 db.Libro.belongsTo(db.Genero, {
-  foreignKey: 'idGenero'
+  foreignKey: 'idGenero',
+  as: 'genero'
 });
 
 module.exports = db;
