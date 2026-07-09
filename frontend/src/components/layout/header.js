@@ -10,12 +10,14 @@ function Header() {
       <div className="logo">
        <h1>Catálogo Personal</h1>
       </div>
+      <div>
         <nav className="main-nav">
         <Link to="/">Inicio</Link>
         <Link to="/libros">Libros</Link>
         <Link to="/generos">Géneros</Link>
         <Link to="/perfil">Perfil</Link>
       </nav>
+      </div>
     </header>
     );
 }
