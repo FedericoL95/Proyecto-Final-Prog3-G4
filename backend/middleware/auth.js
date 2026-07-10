@@ -5,14 +5,17 @@ const JWT_SECRET = process.env.JWT_SECRET || 'secret_por_defecto';
 function generarToken(user) {
   // TODO: Generar un token JWT con el id y email del usuario.
   // Pista: usar jwt.sign() con un payload { id, email } y una expiración de '24h'.
+<<<<<<< HEAD
   const payload = {id: user.id, email: user.email};
+=======
+  const payload = {id: user.idUsuario, email: user.email};
+>>>>>>> main
   const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '24h' });
   return token;
 }
 
 function verificarToken(req, res, next) {
   const authHeader = req.headers['authorization'];
-
   if (!authHeader) {
     return res.status(401).json({ error: 'Token no proporcionado' });
   }
@@ -20,11 +23,13 @@ function verificarToken(req, res, next) {
   // El formato es "Bearer <token>", hay que quedarse solo con la parte del token.
   // Pista: usar split(' ')
   const token = authHeader.split(' ')[1]; 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
   if (!token) {
     return res.status(401).json({ error: 'Formato de token inválido' });
   }
-
   try {
     // TODO: Verificar y decodificar el token con jwt.verify()
     // Si es válido, guardar los datos del usuario en req.user y llamar a next()
