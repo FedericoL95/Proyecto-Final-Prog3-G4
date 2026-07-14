@@ -5,22 +5,14 @@ const register = async (req, res) => {
   try {
     const { nombre, email, password } = req.body;
 
-    const existente = await User.findOne({
-      where: { email }
-    });
-
+    const existente = await User.findOne({ where: { email } });
     if (existente) {
       return res.status(400).json({
         error: 'El email ya está registrado'
       });
     }
 
-    const user = await User.create({
-      nombre,
-      email,
-      password
-    });
-
+    const user = await User.create({ nombre, email, password });
     const token = generarToken(user);
 
     res.status(201).json({
@@ -40,10 +32,7 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({
-      where: { email }
-    });
-
+    const user = await User.findOne({ where: { email } });
     if (!user) {
       return res.status(401).json({
         error: 'Credenciales inválidas'
@@ -51,7 +40,6 @@ const login = async (req, res) => {
     }
 
     const passwordValida = await user.validarPassword(password);
-
     if (!passwordValida) {
       return res.status(401).json({
         error: 'Credenciales inválidas'
@@ -60,11 +48,7 @@ const login = async (req, res) => {
 
     const token = generarToken(user);
 
-    res.json({
-      message: 'Login exitoso',
-      user,
-      token
-    });
+    res.json({ message: 'Login exitoso', user, token });
   } catch (error) {
     console.error('Error en login:', error);
     res.status(500).json({
@@ -75,14 +59,12 @@ const login = async (req, res) => {
 
 const perfil = async (req, res) => {
   try {
-    const user = await User.findByPk(req.user.idusuario);
-
+    const user = await User.findByPk(req.user.id);
     if (!user) {
       return res.status(404).json({
         error: 'Usuario no encontrado'
       });
     }
-
     res.json({ user });
   } catch (error) {
     console.error('Error en perfil:', error);
