@@ -1,0 +1,124 @@
+/* ===== RESET ===== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  }
+
+/* ===== BODY ===== */
+body {
+font-family: Arial, sans-serif;
+background: linear-gradient(135deg, #1e1e2f, #2a2a40);
+color: #ffffff;
+line-height: 1.5;
+}
+
+/* ===== HEADER ===== */
+.header {
+text-align: center;
+padding: 20px;
+background: #2c2c44;
+box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* ===== SECCIONES ===== */
+section {
+max-width: 600px;
+margin: 25px auto;
+background: #2c2c44;
+padding: 20px;
+border-radius: 12px;
+box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+/* ===== TITULOS ===== */
+h1, h2 {
+text-align: center;
+margin-bottom: 15px;
+}
+
+/* ===== FORMULARIOS ===== */
+form {
+display: flex;
+flex-direction: column;
+gap: 10px;
+}
+
+input {
+padding: 10px;
+border-radius: 8px;
+border: none;
+outline: none;
+background: #3a3a5f;
+color: #fff;
+}
+
+input::placeholder {
+color: #bbb;
+}
+
+/* ===== BOTONES ===== */
+button {
+padding: 10px;
+border: none;
+border-radius: 8px;
+background: #6c63ff;
+color: white;
+cursor: pointer;
+transition: 0.3s;
+font-weight: bold;
+}
+
+button:hover {
+background: #554fd8;
+}
+
+/* ===== PERFIL ===== */
+.preview {
+margin-top: 20px;
+text-align: center;
+}
+
+.preview img {
+width: 100px;
+height: 100px;
+border-radius: 50%;
+border: 3px solid #6c63ff;
+object-fit: cover;
+}
+
+.preview h3 {
+margin-top: 10px;
+}
+
+/* ===== ESTADISTICAS ===== */
+.estadisticas input {
+margin-top: 10px;
+}
+
+/* ===== LIBROS ===== */
+#listaLibros {
+margin-top: 15px;
+}
+
+.libro {
+background: #3a3a5f;
+padding: 12px;
+border-radius: 8px;
+margin-bottom: 10px;
+transition: 0.2s;
+}
+
+.libro:hover {
+transform: scale(1.02);
+background: #44446a;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+section {
+margin: 15px;
+}
+}
+

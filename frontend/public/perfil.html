@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi Biblioteca</title>
+    <link rel="stylesheet" href="../src/styles/perfil.css">
+    <link rel="icon" href="../src/assets/icons/Logo.png">
+</head>
+<body>
+
+<header class="header">
+    <h1>📚 Mi Biblioteca Personal</h1>
+</header>
+
+<!-- PERFIL -->
+<section class="perfil">
+    <h2>Mi Perfil</h2>
+
+    <form id="perfilForm">
+        <input type="text" placeholder="Nombre de usuario" id="nombre" required>
+        <input type="text" placeholder="Descripción" id="descripcion">
+        <label for="imagen" class="btn-file">Elegir foto de perfil</label>
+        <input type="file" id="imagen" accept="image/*" hidden>
+
+        <button type="submit">Guardar Perfil</button>
+    </form>
+
+    <!-- Vista previa -->
+    <div class="preview">
+        <img id="previewImg" src="https://via.placeholder.com/120">
+        <h3 id="previewNombre">Nombre</h3>
+        <p id="previewDesc">Descripción</p>
+    </div>
+</section>
+
+<!-- ESTADISTICAS -->
+<section class="estadisticas">
+    <h2>Estadísticas</h2>
+
+    <input type="number" placeholder="Libros leídos" id="leidos">
+    <input type="number" placeholder="En lectura" id="leyendo">
+    <input type="number" placeholder="Pendientes" id="pendientes">
+</section>
+
+<!-- LIBROS -->
+<section class="libros">
+    <h2>📖 Agregar Libro</h2>
+
+    <form id="libroForm">
+        <input type="text" placeholder="Título del libro" id="titulo" required>
+        <input type="text" placeholder="Autor" id="autor" required>
+        <button type="submit">Agregar</button>
+    </form>
+
+    <div id="listaLibros"></div>
+</section>
+
+<script>
+    // PREVIEW PERFIL
+    const form = document.getElementById("perfilForm");
+
+    form.addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        document.getElementById("previewNombre").textContent = document.getElementById("nombre").value;
+        document.getElementById("previewDesc").textContent = document.getElementById("descripcion").value;
+
+        const img = document.getElementById("imagen").value;
+        if (img) {
+            document.getElementById("previewImg").src = img;
+        }
+    });
+
+    // AGREGAR LIBROS
+    const libroForm = document.getElementById("libroForm");
+    const lista = document.getElementById("listaLibros");
+
+    libroForm.addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        const titulo = document.getElementById("titulo").value;
+        const autor = document.getElementById("autor").value;
+
+        const div = document.createElement("div");
+        div.classList.add("libro");
+        div.innerHTML = `<strong>${titulo}</strong><p>${autor}</p>`;
+
+        lista.appendChild(div);
+
+        libroForm.reset();
+    });
+
+const input = document.getElementById("imagen");
+const preview = document.getElementById("previewImg");
+
+// Cargar imagen guardada al iniciar
+window.addEventListener("DOMContentLoaded", () => {
+    const savedImg = localStorage.getItem("perfilImg");
+    if (savedImg) {
+        preview.src = savedImg;
+    }
+});
+
+// Cuando elige imagen
+input.addEventListener("change", function () {
+    const file = this.files[0];
+
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+        const imgData = e.target.result;
+
+        preview.src = imgData;
+        localStorage.setItem("perfilImg", imgData);
+    };
+
+    reader.readAsDataURL(file);
+});
+
+</script>
+
+</body>
+</html>
+
