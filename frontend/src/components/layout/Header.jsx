@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import Logo from "frontend\src\assets\images\Logo.png";
-import "frontend\src\components\layout\CSS\Header.css";
+import Logo from "frontend/src/assets/images/Logo.png";
+import "frontend/src/components/layout/CSS/Header.css";
 
 export default function Header() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
