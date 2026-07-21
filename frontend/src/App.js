@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import MainLayout from './components/layout/layout';
 import Biblioteca from './pages/Biblioteca';
 import FAQ from './pages/FAQ';
@@ -20,7 +20,7 @@ function Placeholder({ titulo }) {
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <MainLayout>
         <Routes>
           <Route path="/" element={<Navigate to="/biblioteca" replace />} />
@@ -32,7 +32,7 @@ function App() {
           <Route path="/terminos" element={<Placeholder titulo="Terminos" />} />
         </Routes>
       </MainLayout>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
