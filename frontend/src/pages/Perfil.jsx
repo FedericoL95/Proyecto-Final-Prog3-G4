@@ -1,137 +1,78 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { obtenerLibros } from "../services/libroservice";
 import "../styles/perfil.css";
-import Button from "../components/Button";
-import Input from "../components/Input";
+
 export default function Perfil() {
-  const [nombre, setNombre] = useState("");
-  const [descripcion, setDescripcion] = useState("");
-  const [previewImg, setPreviewImg] = useState("-");
-  const [stats, setStats] = useState({ leidos: "", leyendo: "", pendientes: "" });
-  const [titulo, setTitulo] = useState("");
-  const [autor, setAutor] = useState("");
-  const [libros, setLibros] = useState([]);
-
-
-
-  // IMPORTANTE: Los métodos de perfil los puse como una idea para que no esté vacío, pero no se
-  // si funcionarían porque necesitan guardar el perfil como JSON. No se si eso genera algún problema con el back o no
-
-
+  const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const [stats, setStats] = useState({ leidos: 0, leyendo: 0, porLeer: 0, total: 0 });
 
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("perfilData") || "{}");
-    if (saved) {
-      setNombre(saved.nombre || "");
-      setDescripcion(saved.descripcion || "");
-      setPreviewImg(saved.previewImg || "-");
-      setStats(saved.stats || { leidos: "", leyendo: "", pendientes: "" });
-      setLibros(saved.libros || []);
-    }
+    obtenerLibros()
+      .then((res) => {
+        const libros = res.data || [];
+        setStats({
+          leidos: libros.filter((l) => l.estado === "leído").length,
+          leyendo: libros.filter((l) => l.estado === "leyendo").length,
+          porLeer: libros.filter((l) => l.estado === "por leer").length,
+          total: libros.length,
+        });
+      })
+      .catch(() => {});
   }, []);
 
-  const guardarPerfil = (e) => {
-    e.preventDefault();
-    localStorage.setItem("perfilData", JSON.stringify({
-      nombre,
-      descripcion,
-      previewImg,
-      stats,
-      libros
-    }));
-  };
-
-  const agregarLibro = (e) => {
-    e.preventDefault();
-    if (!titulo.trim() || !autor.trim()) return;
-
-    const nuevoLibro = {
-      id: // no estoy seguro de como asegurar que tenga una id unica
-      titulo: titulo.trim(),
-      autor: autor.trim()
-    };
-
-    const nextLibros = [...libros, nuevoLibro];
-    setLibros(nextLibros);
-    setTitulo("");
-    setAutor("");
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("libros");
+    localStorage.removeItem("perfilData");
+    navigate("/biblioteca");
   };
 
   return (
     <div className="page">
-      <section className="perfil">
-        <h2>Mi Perfil</h2>
+      <div className="perfil-container">
 
-        <form onSubmit={guardarPerfil}>
-        <Input
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-          placeholder="Nombre de usuario"
-        />
-          <Input
-            value={descripcion}
-            onChange={(e) => setDescripcion(e.target.value)}
-          />
-          <label htmlFor="imagen" className="btn-file">
-            Elegir foto de perfil
-          </label>
-          <input type="file" id="imagen" accept="image/*" hidden onChange={handleImageChange} />
-          <button type="submit">Guardar Perfil</button>
-        </form>
+        <section className="perfil-seccion perfil-info">
+          <h2>Mi Cuenta</h2>
+          <div className="perfil-campo">
+            <span className="perfil-label">Nombre</span>
+            <span className="perfil-valor">{user.nombre || "-"}</span>
+          </div>
+          <div className="perfil-campo">
+            <span className="perfil-label">Email</span>
+            <span className="perfil-valor">{user.email || "-"}</span>
+          </div>
+        </section>
 
-      </section>
-
-      <section className="estadisticas">
-        <h2>Estadísticas</h2>
-        <input
-          type="number"
-          placeholder="Libros leídos"
-          value={stats.leidos}
-          onChange={(e) => setStats({ ...stats, leidos: e.target.value })}
-        />
-        <input
-          type="number"
-          placeholder="En lectura"
-          value={stats.leyendo}
-          onChange={(e) => setStats({ ...stats, leyendo: e.target.value })}
-        />
-        <input
-          type="number"
-          placeholder="Pendientes"
-          value={stats.pendientes}
-          onChange={(e) => setStats({ ...stats, pendientes: e.target.value })}
-        />
-      </section>
-
-      <section className="libros">
-        <h2>📖 Agregar Libro</h2>
-
-        <form onSubmit={agregarLibro}>
-          <input
-            type="text"
-            placeholder="Título del libro"
-            value={titulo}
-            onChange={(e) => setTitulo(e.target.value)}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Autor"
-            value={autor}
-            onChange={(e) => setAutor(e.target.value)}
-            required
-          />
-          <button type="submit">Agregar</button>
-        </form>
-
-        <div id="listaLibros">
-          {libros.map((libro) => (
-            <div className="libro" key={libro.id}>
-              <strong>{libro.titulo}</strong>
-              <p>{libro.autor}</p>
+        <section className="perfil-seccion perfil-stats">
+          <h2>Estadisticas de Lectura</h2>
+          <div className="stats-grid">
+            <div className="stat-card">
+              <span className="stat-numero">{stats.total}</span>
+              <span className="stat-label">Total</span>
             </div>
-          ))}
-        </div>
-      </section>
+            <div className="stat-card stat-leidos">
+              <span className="stat-numero">{stats.leidos}</span>
+              <span className="stat-label">Leidos</span>
+            </div>
+            <div className="stat-card stat-leyendo">
+              <span className="stat-numero">{stats.leyendo}</span>
+              <span className="stat-label">Leyendo</span>
+            </div>
+            <div className="stat-card stat-porleer">
+              <span className="stat-numero">{stats.porLeer}</span>
+              <span className="stat-label">Por leer</span>
+            </div>
+          </div>
+        </section>
+
+        <button className="logout-btn" onClick={handleLogout}>
+          Cerrar sesion
+        </button>
+
+      </div>
     </div>
   );
 }
