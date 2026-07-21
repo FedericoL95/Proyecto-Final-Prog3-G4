@@ -1,5 +1,5 @@
-import "frontend\src\components\layout\CSS\Footer.css";
-import Logo from "frontend\src\assets\images\Logo.png";
+import "frontend/src/components/layout/CSS/Footer.css";
+import Logo from "frontend/src/assets/images/Logo.png";
 import { useState, useEffect } from "react";
 
 
