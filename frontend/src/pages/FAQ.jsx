@@ -1,4 +1,4 @@
-import Card from "frontend/src/components/ui/Card"; // Podria utilizarse para que quede mejor con el resto de la pagina, pero se me ocurrio despues de que ya habia escribido todo
+import Card from "../components/ui/Card"; // Podria utilizarse para que quede mejor con el resto de la pagina, pero se me ocurrio despues de que ya habia escribido todo
 export default function FAQ() {
   return (
     <div className="page">
