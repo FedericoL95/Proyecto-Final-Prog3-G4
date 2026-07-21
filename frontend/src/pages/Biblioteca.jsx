@@ -54,6 +54,7 @@ export default function Biblioteca() {
   const [busqueda, setBusqueda] = useState("");
   const [filtroGenero, setFiltroGenero] = useState(null);
   const [guardando, setGuardando] = useState(false);
+  const [errorForm, setErrorForm] = useState("");
 
   useEffect(() => {
     if (isLogueado()) {
@@ -95,9 +96,11 @@ export default function Biblioteca() {
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    setErrorForm("");
   };
 
   const toggleGeneroForm = (idGenero) => {
+    setErrorForm("");
     setForm((prev) => {
       const actual = prev.idGeneros || [];
       const existe = actual.includes(idGenero);
@@ -112,8 +115,19 @@ export default function Biblioteca() {
 
   const handleSubmitLibro = async (e) => {
     e.preventDefault();
-    if (!form.titulo.trim() || !form.autor.trim() || guardando) return;
+    if (guardando) return;
 
+    if (!form.titulo.trim() || !form.autor.trim()) {
+      setErrorForm("Completa titulo y autor.");
+      return;
+    }
+
+    if (!form.idGeneros || form.idGeneros.length === 0) {
+      setErrorForm("Selecciona al menos un genero.");
+      return;
+    }
+
+    setErrorForm("");
     setGuardando(true);
     const datosLibro = {
       ...form,
@@ -216,12 +230,14 @@ export default function Biblioteca() {
   const abrirModalNuevo = () => {
     setLibroEditando(null);
     setForm(libroInicial);
+    setErrorForm("");
     setModalLibro(true);
   };
 
   const cerrarModalLibro = () => {
     setLibroEditando(null);
     setForm(libroInicial);
+    setErrorForm("");
     setModalLibro(false);
   };
 
@@ -455,6 +471,7 @@ export default function Biblioteca() {
             rows="3"
             maxLength="500"
           />
+          {errorForm && <p className="form-error">{errorForm}</p>}
           <div className="form-acciones">
             <button type="submit" className="btn btn-primary" disabled={guardando}>
               {guardando ? "Guardando..." : "Guardar"}
