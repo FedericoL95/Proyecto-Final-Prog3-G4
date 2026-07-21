@@ -53,6 +53,7 @@ export default function Biblioteca() {
   const [nuevoGenero, setNuevoGenero] = useState("");
   const [busqueda, setBusqueda] = useState("");
   const [filtroGenero, setFiltroGenero] = useState(null);
+  const [guardando, setGuardando] = useState(false);
 
   useEffect(() => {
     if (isLogueado()) {
@@ -111,8 +112,9 @@ export default function Biblioteca() {
 
   const handleSubmitLibro = async (e) => {
     e.preventDefault();
-    if (!form.titulo.trim() || !form.autor.trim()) return;
+    if (!form.titulo.trim() || !form.autor.trim() || guardando) return;
 
+    setGuardando(true);
     const datosLibro = {
       ...form,
       puntuacion: form.puntuacion ? Number(form.puntuacion) : null,
@@ -151,6 +153,7 @@ export default function Biblioteca() {
     setForm(libroInicial);
     setLibroEditando(null);
     setModalLibro(false);
+    setGuardando(false);
   };
 
   const handleSubmitGenero = (e) => {
@@ -453,8 +456,8 @@ export default function Biblioteca() {
             maxLength="500"
           />
           <div className="form-acciones">
-            <button type="submit" className="btn btn-primary">
-              Guardar
+            <button type="submit" className="btn btn-primary" disabled={guardando}>
+              {guardando ? "Guardando..." : "Guardar"}
             </button>
             <button
               type="button"
