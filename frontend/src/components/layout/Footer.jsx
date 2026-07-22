@@ -1,18 +1,15 @@
-import "frontend/src/components/layout/CSS/Footer.css";
-import Logo from "frontend/src/assets/images/Logo.png";
-import { useState, useEffect } from "react";
-
-
+import "./CSS/Footer.css";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
     return (
     <footer className="footer">
         <p>© 2026 Biblioteca — Todos los derechos reservados</p>
         <div className="footer-links">
-            <a href="/ayuda">Ayuda</a>
-            <a href="/contacto">Contacto</a>
-            <a href="/terminos">Términos</a>
+            <Link to="/faq">Ayuda</Link>
+            <Link to="/contacto">Contacto</Link>
+            <Link to="/terminos">Términos</Link>
         </div>
-        </footer>
+    </footer>
     );
 }

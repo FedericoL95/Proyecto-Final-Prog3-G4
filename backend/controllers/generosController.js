@@ -2,7 +2,9 @@ const { Genero } = require('../models');
 
 const getGeneros = async (req, res) => {
   try {
-    const generos = await Genero.findAll();
+    const generos = await Genero.findAll({
+      where: { idUsuario: req.user.id }
+    });
     res.status(200).json(generos);
   } catch (error) {
     console.error('Error al obtener géneros:', error);
@@ -13,7 +15,9 @@ const getGeneros = async (req, res) => {
 const getGeneroById = async (req, res) => {
   try {
     const { id } = req.params;
-    const genero = await Genero.findByPk(id);
+    const genero = await Genero.findOne({
+      where: { idGenero: id, idUsuario: req.user.id }
+    });
     if (!genero) {
       return res.status(404).json({ error: 'Género no encontrado' });
     }
@@ -26,7 +30,10 @@ const getGeneroById = async (req, res) => {
 
 const createGenero = async (req, res) => {
   try {
-    const genero = await Genero.create(req.body);
+    const genero = await Genero.create({
+      ...req.body,
+      idUsuario: req.user.id
+    });
     res.status(201).json({ message: 'Género creado exitosamente', genero });
   } catch (error) {
     console.error('Error al crear género:', error);
@@ -37,7 +44,9 @@ const createGenero = async (req, res) => {
 const updateGenero = async (req, res) => {
   try {
     const { id } = req.params;
-    const genero = await Genero.findByPk(id);
+    const genero = await Genero.findOne({
+      where: { idGenero: id, idUsuario: req.user.id }
+    });
     if (!genero) {
       return res.status(404).json({ error: 'Género no encontrado' });
     }
@@ -52,7 +61,9 @@ const updateGenero = async (req, res) => {
 const deleteGenero = async (req, res) => {
   try {
     const { id } = req.params;
-    const genero = await Genero.findByPk(id);
+    const genero = await Genero.findOne({
+      where: { idGenero: id, idUsuario: req.user.id }
+    });
     if (!genero) {
       return res.status(404).json({ error: 'Género no encontrado' });
     }

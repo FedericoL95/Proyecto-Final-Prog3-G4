@@ -1,32 +1,27 @@
-import { useState, useEffect } from "react";
-import Logo from "frontend/src/assets/images/Logo.png";
-import "frontend/src/components/layout/CSS/Header.css";
+import { useLocation, Link } from "react-router-dom";
+import Logo from "../../assets/images/Logo.png";
+import "./CSS/Header.css";
 
 export default function Header() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const location = useLocation();
+    const enBiblioteca = location.pathname === "/biblioteca";
+    const logueado = !!localStorage.getItem("token");
 
     return (
     <header className="header">
-    
-        <div className="header-left">
-            <Logo />
+        <Link to="/biblioteca" className="header-left">
+            <img src={Logo} alt="Logo" />
             <h1 className="app-name">Biblioteca</h1>
-        </div>
+        </Link>
 
-    
         <nav className="header-right">
-        {!isLoggedIn ? (
-            <>
-                <button onClick={() => alert("Ir a login")}>Login</button>
-                <button onClick={() => alert("Ver biblioteca")}>Biblioteca</button>
-            </>
-        ) : (
-            <>
-                <button onClick={() => alert("Ver perfil")}>Perfil</button>
-                <button onClick={() => setIsLoggedIn(false)}>Logout</button>
-            </>
-        )}
+            <Link to="/biblioteca" className="header-link">
+                {enBiblioteca ? "Inicio" : "Biblioteca"}
+            </Link>
+            <Link to={logueado ? "/perfil" : "/login"} className="header-link">
+                {logueado ? "Perfil" : "Login"}
+            </Link>
         </nav>
-        </header>
+    </header>
     );
 }

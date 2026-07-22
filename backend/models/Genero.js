@@ -14,6 +14,14 @@ module.exports = (sequelize) => {
         notEmpty: true,
         len: [2, 100]
       }
+    },
+    idUsuario: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'usuario',
+        key: 'idUsuario'
+      }
     }
   }, {
     tableName: 'generos',
