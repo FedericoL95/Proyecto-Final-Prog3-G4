@@ -170,7 +170,7 @@ export default function Biblioteca() {
     setGuardando(false);
   };
 
-  const handleSubmitGenero = (e) => {
+  const handleSubmitGenero = async (e) => {
     e.preventDefault();
     if (!nuevoGenero.trim()) return;
 
@@ -179,14 +179,15 @@ export default function Biblioteca() {
     );
     if (duplicado) return;
 
-    const generoData = {
-      idGenero: Date.now(),
-      nombre: nuevoGenero.trim(),
-    };
+    try {
+      const res = await crearGenero({ nombre: nuevoGenero.trim() });
+      const nuevo = res.data.genero || res.data;
+      guardarGeneros([...generos, nuevo]);
+    } catch {
+      const generoLocal = { idGenero: Date.now(), nombre: nuevoGenero.trim() };
+      guardarGeneros([...generos, generoLocal]);
+    }
 
-    crearGenero({ nombre: generoData.nombre }).catch(() => {});
-
-    guardarGeneros([...generos, generoData]);
     setNuevoGenero("");
     setModalGenero(false);
   };
