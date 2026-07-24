@@ -13,6 +13,7 @@ const sequelize = new Sequelize(
     port: dbConfig.port,
     dialect: dbConfig.dialect,
     logging: dbConfig.logging,
+    dialectOptions: dbConfig.dialectOptions || {},
   }
 );
 
@@ -57,6 +58,17 @@ db.Genero.hasMany(db.Libro, {
 db.Libro.belongsTo(db.Genero, {
   foreignKey: 'idGenero',
   as: 'genero'
+});
+
+// LibroUsuario associations
+db.LibroUsuario.belongsTo(db.Libro, {
+  foreignKey: 'idLibro',
+  as: 'libro'
+});
+
+db.Libro.hasMany(db.LibroUsuario, {
+  foreignKey: 'idLibro',
+  as: 'usuarios'
 });
 
 module.exports = db;

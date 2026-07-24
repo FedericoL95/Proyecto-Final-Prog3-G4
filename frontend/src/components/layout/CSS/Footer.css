@@ -1,0 +1,22 @@
+.footer {
+  text-align: center;
+  padding: 1.25rem;
+  background: var(--white);
+  border-top: 1px solid var(--gray-dark);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.footer-links {
+  margin-top: 0.5rem;
+}
+
+.footer-links a {
+  margin: 0 10px;
+  color: var(--text-light);
+  transition: color 0.15s ease;
+}
+
+.footer-links a:hover {
+  color: var(--primary);
+}
